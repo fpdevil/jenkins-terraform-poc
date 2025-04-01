@@ -14,7 +14,7 @@ terraform {
 
   # Using S3 as the remote backend for storing the Terraform state  
   backend "s3" {
-    bucket = "iacapi-tf-s3bucket"         # S3 bucket name
+    bucket = "iacapi-tf-s3bucket"   # S3 bucket name
     region = "us-east-2"            # AWS region
     key = "dev/terraform.tfstate"   # S3 object key path
   }
