@@ -17,7 +17,7 @@ pipeline {
 
     // environment variables
     environment {
-        S3_BUCKET = "svcapi-tf-s3"
+        S3_BUCKET = "iacapi-tf-s3bucket"
         AWS_REGION = "us-east-2"
         STATE_FILE_KEY = "${params.ENVIRONMENT}/terraform.tfstate"
         TFVARS_FILE="${params.ENVIRONMENT}.tfvars"
