@@ -11,7 +11,7 @@ pipeline {
         choice(
             name: 'ACTION',
             choices: "format\nvalidate\nplan\napply\ndestroy",
-            description: 'Choose a Terraform workflow'
+            description: 'Choose a Terraform workflow to execute'
         )
     }
 
