@@ -29,11 +29,12 @@ pipeline {
         stage ('init') {
             steps {
                 sh """
-                terraform init -reconfigure \
-                    -backend-config="bucket=${S3_BUCKET}" \
-                    -backend-config="key=${STATE_FILE_KEY}" \
-                    -backend-config="region=${AWS_REGION}" \
-                    --no-color
+                terraform init \
+                -reconfigure \
+                -backend-config="bucket=${S3_BUCKET}" \
+                -backend-config="key=${STATE_FILE_KEY}" \
+                -backend-config="region=${AWS_REGION}" \
+                --no-color
                 """
             }
         }
