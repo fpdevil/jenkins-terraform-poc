@@ -34,7 +34,7 @@ pipeline {
                 -backend-config="bucket=${S3_BUCKET}" \
                 -backend-config="key=${STATE_FILE_KEY}" \
                 -backend-config="region=${AWS_REGION}" \
-                --no-color
+                -no-color
                 """
             }
         }
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 sh """
                 echo "Executing Terraform action # ${params.ACTION}"
-                terraform fmt --no-color
+                terraform fmt -no-color
                 """
             }
         }
@@ -60,7 +60,7 @@ pipeline {
             steps {
                 sh """
                 echo "Executing Terraform action # ${params.ACTION}"
-                terraform validate --no-color
+                terraform validate -no-color
                 """
             }
         }
@@ -73,7 +73,7 @@ pipeline {
             steps {
                 sh """
                 echo "Executing Terraform action # ${params.ACTION}"
-                terraform plan -var-file=${TFVARS_FILE} --no-color
+                terraform plan -var-file=${TFVARS_FILE} -no-color
                 """
             }
         }
@@ -89,7 +89,7 @@ pipeline {
                 }
                 sh """
                 echo "Executing Terraform action # ${params.ACTION}"
-                terraform apply -var-file=${TFVARS_FILE} --auto-approve --no-color
+                terraform apply -var-file=${TFVARS_FILE} --auto-approve -no-color
                 """
             }
         }
@@ -105,7 +105,7 @@ pipeline {
                 }
                 sh """
                 echo "Executing Terraform action # ${params.ACTION}"
-                terraform destroy -var-file=${TFVARS_FILE} --auto-approve --no-color
+                terraform destroy -var-file=${TFVARS_FILE} --auto-approve -no-color
                 """
             }
         }
