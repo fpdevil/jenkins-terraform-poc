@@ -1,6 +1,7 @@
 pipeline {
     agent any 
-
+    // input parameters as a choice
+    // Select the approrpiate Environment and Terraform workflow
     parameters {
         choice(
             name: 'ENVIRONMENT',
@@ -13,20 +14,26 @@ pipeline {
             description: 'Choose a Terraform workflow'
         )
     }
+
+    // environment variables
     environment {
         S3_BUCKET = "svcapi-tf-s3"
         AWS_REGION = "us-east-2"
         STATE_FILE_KEY = "${params.ENVIRONMENT}/terraform.tfstate"
         TFVARS_FILE="${params.ENVIRONMENT}.tfvars"
     }
+
+    // pipeline stages to be triggered
     stages {
+        // the 'terraform init' stage will be executed unconditionally
         stage ('init') {
             steps {
                 sh """
                 terraform init -reconfigure \
                     -backend-config="bucket=${S3_BUCKET}" \
                     -backend-config="key=${STATE_FILE_KEY}" \
-                    -backend-config="region=${AWS_REGION}"
+                    -backend-config="region=${AWS_REGION}" \
+                    --no-color
                 """
             }
         }
@@ -38,7 +45,8 @@ pipeline {
             }
             steps {
                 sh """
-                terraform fmt
+                echo "Executing Terraform action # ${params.ACTION}"
+                terraform fmt --no-color
                 """
             }
         }
@@ -50,7 +58,8 @@ pipeline {
             }
             steps {
                 sh """
-                terraform validate
+                echo "Executing Terraform action # ${params.ACTION}"
+                terraform validate --no-color
                 """
             }
         }
@@ -62,7 +71,8 @@ pipeline {
             }
             steps {
                 sh """
-                terraform plan -var-file=${TFVARS_FILE}
+                echo "Executing Terraform action # ${params.ACTION}"
+                terraform plan -var-file=${TFVARS_FILE} --no-color
                 """
             }
         }
@@ -77,7 +87,8 @@ pipeline {
                     input message: 'Are you sure You want to APPLY the changes?', ok: 'yes', submitter: 'fpdevil,sampath'
                 }
                 sh """
-                terraform apply -var-file=${TFVARS_FILE} --auto-approve
+                echo "Executing Terraform action # ${params.ACTION}"
+                terraform apply -var-file=${TFVARS_FILE} --auto-approve --no-color
                 """
             }
         }
@@ -92,7 +103,8 @@ pipeline {
                     input message: 'Are you sure You want to DESTROY the infra?', ok: 'yes', submitter: 'fpdevil,sampath'
                 }
                 sh """
-                terraform destroy -var-file=${TFVARS_FILE} --auto-approve
+                echo "Executing Terraform action # ${params.ACTION}"
+                terraform destroy -var-file=${TFVARS_FILE} --auto-approve --no-color
                 """
             }
         }

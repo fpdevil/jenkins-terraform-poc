@@ -1,7 +1,7 @@
 # Terraform settings block 
 terraform {
   # Terraform Version
-  required_version = "~> 1.9" #constraints
+  required_version = "~> 1.9" # constraints 1.9.x and above
   
   
   # Required terraform providers
@@ -12,10 +12,10 @@ terraform {
     }
   }
 
-  # Backend 
+  # Using S3 as the remote backend for storing the Terraform state  
   backend "s3" {
-    bucket = "svcapi-tf-s3"
-    region = "us-east-2"
-    key = "dev/terraform.tfstate"
+    bucket = "svcapi-tf-s3"         # S3 bucket name
+    region = "us-east-2"            # AWS region
+    key = "dev/terraform.tfstate"   # S3 object key path
   }
 }
