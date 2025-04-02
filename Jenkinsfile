@@ -17,10 +17,9 @@ pipeline {
 
     // environment variables
     environment {
-        S3_BUCKET = "iacapi-tf-s3bucket"
-        AWS_REGION = "us-east-2"
-        STATE_FILE_KEY = "${params.ENVIRONMENT}/terraform.tfstate"
+        // set the environment variables
         TFVARS_FILE="${params.ENVIRONMENT}.tfvars"
+        BACKEND_CONFIG = "${params.ENVIRONMENT}.backend.hcl"
     }
 
     // pipeline stages to be triggered
@@ -31,9 +30,7 @@ pipeline {
                 sh """
                 terraform init \
                 -reconfigure \
-                -backend-config="bucket=${S3_BUCKET}" \
-                -backend-config="key=${STATE_FILE_KEY}" \
-                -backend-config="region=${AWS_REGION}" \
+                -backend-config=${BACKEND_CONFIG} \
                 -no-color
                 """
             }
