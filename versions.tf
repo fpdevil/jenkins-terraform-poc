@@ -13,9 +13,9 @@ terraform {
   }
 
   # Using S3 as the remote backend for storing the Terraform state  
+  # Backend configuration for storing state to S3 bucket
+  # Variables cannot be used in the backend block and hence
+  # are being passed in backend.hcl file
   backend "s3" {
-    bucket = "iacapi-tf-s3bucket"   # S3 bucket name
-    region = "us-east-2"            # AWS region
-    key = "dev/terraform.tfstate"   # S3 object key path
   }
 }
